@@ -1,0 +1,5 @@
+# ignore various editor files
+*.swp
+*~
+*.project
+
