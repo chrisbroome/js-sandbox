@@ -16,8 +16,7 @@
 
   var router = {
     '/': function(request, response) {
-      setContentType(request, response, 'html');
-      response.write('<h1>Hi!</h1>');
+      processPath(request, response, './index.html');
     }
   };
 
@@ -30,7 +29,6 @@
     logger(request);
     if( action ) {
       action(request, response);
-      response.end();
     }
     else {
       staticFileProcessor(request, response);
@@ -52,6 +50,10 @@
 
   function staticFileProcessor(request, response) {
     var fsPath = path.normalize(path.join(__dirname, request.url));
+    processPath(request, response, fsPath);
+  }
+
+  function processPath(request, response, fsPath) {
     fs.exists(fsPath, function(exists) {
       if( exists ) {
         var ext = path.extname(fsPath).substr(1);
