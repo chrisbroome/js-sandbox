@@ -1,0 +1,15 @@
+{
+  "name": "js-sandbox",
+  "version": "0.0.0",
+  "description": "Fun with JavaScript",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": "",
+  "author": "",
+  "license": "MIT",
+  "gitHead": "1c4a4265b000dd9e369fb23b68171c87338c5337"
+}
