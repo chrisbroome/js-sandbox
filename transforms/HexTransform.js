@@ -9,19 +9,22 @@
     PassThrough.call(this, options);
     this._eol = options.eol;
   }
-  HexTransform.prototype = Object.create( PassThrough.prototype, {
+  var self = Object.create( PassThrough.prototype, {
     constructor: {value: HexTransform}
   });
-  HexTransform.prototype._transform = function(chunk, encoding, done) {
+  self._transform = function(chunk, encoding, done) {
     var data = chunk.toString('hex');
     this.push(data);
     done();
   }
-  HexTransform.prototype._flush = function() {
+  self._flush = function() {
     if( this._eol ) {
       this.push(os.EOL);
     }
   }
+
+  HexTransform.prototype = self;
+
   module.exports = HexTransform;
 
 }).call(this);
