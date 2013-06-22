@@ -17,8 +17,7 @@
     this.push(data);
     done();
   }
-  var newLineTransform = new Transform({objectMode: true});
-  newLineTransform._transform = stream.PassThrough.prototype._transform;
+  var newLineTransform = new stream.PassThrough({objectMode: true});
   newLineTransform._flush = function() {
     this.push('\n');
   }
