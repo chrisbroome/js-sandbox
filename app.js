@@ -5,6 +5,7 @@
   var util = require('util');
   var fs = require('fs');
   var path = require('path');
+  var Router = require('./router');
 
   var contentTypes = {
     'text': 'text/plain',
@@ -14,33 +15,28 @@
     'json': 'application/json'
   };
 
-  var router = {
-    '/': function(request, response) {
-      processPath(request, response, './index.html');
-    }
-  };
+  var router = new Router;
+
+  router.notFound = staticFileProcessor;
+  router.get('/', function(request, response) {
+    processPath(request, response, './index.html');
+  });
 
   var server = http.createServer(requestListener);
 
   server.listen(3333);
 
   function requestListener(request, response) {
-    var action = router[request.url];
-    logger(request);
-    if( action ) {
-      action(request, response);
-    }
-    else {
-      staticFileProcessor(request, response);
-    }
+    router.routeRequest(request, response);
+    responseLogger(request, response);
   }
 
   function setContentType(request, response, type) {
     response.setHeader('Content-Type', contentTypes[type] || contentTypes.text);
   }
 
-  function logger(request) {
-    util.log(request.method + ' ' + request.url);
+  function responseLogger(request, response) {
+    util.log(response.statusCode + ' ' + request.method + ' ' + request.url + ' ');
   }
 
   function notFound(response) {
