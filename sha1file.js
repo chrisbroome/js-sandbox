@@ -6,17 +6,13 @@
   var util = require('util');
   var stream = require('stream');
   var Transform = stream.Transform;
+  var HexTransform = require('./transforms/HexTransform');
 
   var filename = process.argv[2];
   var shasum = crypto.createHash('sha1');
   var readStream = fs.createReadStream(filename);
 
-  var hexTransform = new Transform({objectMode: true});
-  hexTransform._transform = function(chunk, encoding, done) {
-    var data = chunk.toString('hex');
-    this.push(data);
-    done();
-  }
+  var hexTransform = new HexTransform({objectMode: true});
   var newLineTransform = new stream.PassThrough({objectMode: true});
   newLineTransform._flush = function() {
     this.push('\n');
